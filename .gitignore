@@ -1,0 +1,22 @@
+# Node / Vite
+node_modules/
+web/node_modules/
+web/dist/
+*.log
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Env
+.env
+web/.env
+backend/.env
+
+# OS
+.DS_Store
+
+# Vite temp
+web/vite.config.js.timestamp-*
