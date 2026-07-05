@@ -1,0 +1,31 @@
+# Blueprint Render pour Codéna v3.
+# Optionnel : tu peux aussi configurer les 2 services à la main dans le dashboard Render.
+services:
+  # --- Backend FastAPI ---
+  - type: web
+    name: codena-backend
+    runtime: python
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: CORS_ORIGINS
+        value: https://codena.sn,https://www.codena.sn
+      - key: EXPOSE_OTP
+        value: "1"
+
+  # --- Frontend Vite (site statique) ---
+  - type: web
+    name: codena-web
+    runtime: static
+    rootDir: web
+    buildCommand: npm install && npm run build
+    staticPublishPath: dist
+    envVars:
+      - key: VITE_API_URL
+        value: https://codena-backend.onrender.com
+    routes:
+      # SPA fallback : toutes les routes renvoient index.html
+      - type: rewrite
+        source: /*
+        destination: /index.html
